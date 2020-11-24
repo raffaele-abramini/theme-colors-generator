@@ -1,27 +1,15 @@
 import React from "react";
 import tinycolor from "tinycolor2";
 import styled from "@emotion/styled";
+import { ThemeProvider } from "@emotion/react";
 import "./styles.css";
 import { ColorBlock } from "./ColorBlock";
+import { DemoView } from "./DemoView";
 
 const squareStyle = {
   height: "50px",
   width: "50px"
 };
-
-const Button = styled.button`
-  color: ${(p) => p.prim.opposite};
-  background: ${(p) => p.prim.normal};
-
-  &:hover {
-    background: ${(p) =>
-      tinycolor(p.bgColor).isDark() ? p.prim.light : p.prim.dark};
-    color: ${(p) =>
-      tinycolor(p.bgColor).isDark()
-        ? p.prim.oppositeLight
-        : p.prim.oppositeDark};
-  }
-`;
 
 export default function App() {
   const [textColor, setTextColor] = React.useState("#fff");
@@ -66,6 +54,31 @@ export default function App() {
     });
   }, [primaryColor]);
 
+  const theme = {
+    colorBase0: perc[0],
+    colorBase10: perc[1],
+    colorBase20: perc[2],
+    colorBase30: perc[3],
+    colorBase40: perc[4],
+    colorBase50: perc[5],
+    colorBase60: perc[6],
+    colorBase70: perc[7],
+    colorBase80: perc[8],
+    colorBase90: perc[9],
+    colorBase100: perc[10],
+    colorPrimaryDarkest: prims.darkest,
+    colorPrimaryDarker: prims.darker,
+    colorPrimaryDark: prims.dark,
+    colorPrimary: prims.normal,
+    colorPrimaryLight: prims.light,
+    colorPrimaryLighter: prims.lighter,
+    colorPrimaryLightest: prims.lightest,
+    colorPrimaryOpposite: prims.opposite,
+    colorPrimaryOppositeDark: prims.oppositeDark,
+    colorPrimaryOppositeLight: prims.oppositeLigh,
+    isLight: tinycolor(perc[0]).isLight()
+  };
+
   return (
     <div className="App">
       <h1>Theme color generator</h1>
@@ -94,16 +107,9 @@ export default function App() {
         </div>
       </div>
       <h2>Example</h2>
-      <div style={{ background: perc[0], color: perc[10], padding: "10px" }}>
-        <h4>hello there</h4>
-        <hr />
-
-        <p>Text here</p>
-
-        <Button prim={prims} type="button" bgColor={bgColor}>
-          Click me
-        </Button>
-      </div>
+      <ThemeProvider theme={theme}>
+        <DemoView />
+      </ThemeProvider>
 
       <h2>Base scale</h2>
       <div style={{ display: "flex" }}>
@@ -119,29 +125,7 @@ export default function App() {
       </div>
 
       <h2>Tokens</h2>
-      <pre>{`{
-    colorBase0: ${perc[0]},
-    colorBase10: ${perc[1]},
-    colorBase20: ${perc[2]},
-    colorBase30: ${perc[3]},
-    colorBase40: ${perc[4]},
-    colorBase50: ${perc[5]},
-    colorBase60: ${perc[6]},
-    colorBase70: ${perc[7]},
-    colorBase80: ${perc[8]},
-    colorBase90: ${perc[9]},
-    colorBase100: ${perc[10]},
-    colorPrimaryDarkest: ${prims.darkest},
-    colorPrimaryDarker: ${prims.darker},
-    colorPrimaryDark: ${prims.dark},
-    colorPrimary: ${prims.normal},
-    colorPrimaryLight: ${prims.light},
-    colorPrimaryLighter: ${prims.lighter},
-    colorPrimaryLightest: ${prims.lightest},
-    colorPrimaryOpposite: ${prims.opposite},
-    colorPrimaryOppositeDark: ${prims.oppositeDark},
-    colorPrimaryOppositeLight: ${prims.oppositeLight}
-}`}</pre>
+      <pre>{JSON.stringify(theme, undefined, "\b  ")}</pre>
     </div>
   );
 }
