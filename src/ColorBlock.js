@@ -39,12 +39,16 @@ export const ColorBlock = ({ color, onChangeComplete, label }) => {
           style={{}}
         />
         <div
+          onClick={(e) => {
+            setOpen(true);
+          }}
           style={{
             height: "40px",
             width: "40px",
             background: color,
             marginLeft: "8px",
-            border: "1px solid #ddd"
+            border: "1px solid #ddd",
+            cursor: "pointer"
           }}
         ></div>
       </div>
