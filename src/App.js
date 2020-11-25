@@ -1,6 +1,5 @@
 import React from "react";
 import tinycolor from "tinycolor2";
-import styled from "@emotion/styled";
 import { ThemeProvider } from "@emotion/react";
 import "./styles.css";
 import { ColorBlock } from "./ColorBlock";
@@ -17,6 +16,7 @@ export default function App() {
   const [primaryColor, setPrimaryColor] = React.useState("#362EBB");
   const [perc, setPerc] = React.useState([]);
   const [prims, setPrims] = React.useState({});
+  const [baseFontSize, setBaseFontSize] = React.useState(1);
 
   React.useEffect(() => {
     setPerc(
@@ -76,7 +76,8 @@ export default function App() {
     colorPrimaryOpposite: prims.opposite,
     colorPrimaryOppositeDark: prims.oppositeDark,
     colorPrimaryOppositeLight: prims.oppositeLigh,
-    isLight: tinycolor(perc[0]).isLight()
+    isLight: tinycolor(perc[0]).isLight(),
+    baseFontSizeMultiplier: baseFontSize
   };
 
   return (
@@ -103,6 +104,25 @@ export default function App() {
           <ColorBlock
             color={primaryColor}
             onChangeComplete={(c) => setPrimaryColor(c.hex)}
+          />
+        </div>
+        <div>
+          <label>Base font size multiplier</label>
+
+          <input
+            type="number"
+            step={0.05}
+            max={2}
+            min={0.1}
+            style={{
+              display: "block",
+              height: "40px"
+            }}
+            name="label"
+            value={baseFontSize}
+            onChange={(e) => {
+              setBaseFontSize(e.target.value);
+            }}
           />
         </div>
       </div>

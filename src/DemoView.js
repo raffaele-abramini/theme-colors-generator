@@ -1,6 +1,27 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+const fontSize = (baseFontSize) => (p) => {
+  const { baseFontSizeMultiplier: mult } = p.theme;
+
+  function getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
+  }
+
+  if (baseFontSize <= 1) {
+    return baseFontSize;
+  }
+
+  const finalMultiplier = Math.min(
+    (mult - 1) * Math.pow(getBaseLog(baseFontSize, 16), 2) + 1,
+    mult
+  );
+
+  const a = baseFontSize * finalMultiplier + "px";
+
+  return a;
+};
+
 const Button = styled.button`
   color: ${(p) => p.theme.colorPrimaryOpposite};
   background: ${(p) => p.theme.colorPrimary};
@@ -27,6 +48,15 @@ const Background = styled.section`
   display: flex;
   flex-direction: column;
   max-width: 1200px;
+  font-size: ${fontSize(16)};
+
+  button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: ${fontSize(14)};
+    cursor: pointer;
+  }
 `;
 
 const Sidebar = styled.aside`
@@ -68,14 +98,14 @@ const WelcomeTag = styled.div`
   margin-left: auto;
   padding-right: 20px;
 
-  *:first-child {
-    font-size: 12px;
+  *:first-of-type {
+    font-size: ${fontSize(12)};
     font-weight: 600;
     letter-spacing: 1px;
     margin-bottom: 4px;
   }
-  *:last-child {
-    font-size: 10px;
+  *:last-of-type {
+    font-size: ${fontSize(10)};
     letter-spacing: 1px;
   }
 `;
@@ -103,7 +133,7 @@ const Panel2 = styled.div`
 `;
 
 const Label = styled.h4`
-  font-size: 10px;
+  font-size: ${fontSize(10)};
   text-transform: uppercase;
   padding-bottom: 4px;
   letter-spacing: 2px;
@@ -114,7 +144,7 @@ const Title = styled.h3`
   text-transform: uppercase;
   font-weight: 100;
   letter-spacing: 2px;
-  font-size: 24px;
+  font-size: ${fontSize(24)};
 `;
 
 const SublteText = styled.p`
